@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>네이버 리뷰</title>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
+
+</script>
+
+<script src="{{ url_for('static', filename='js/bot_v3.js') }}"></script>
+<style>
+    .onmouse {
+        background: rgb(255, 249, 160)
+    }
+    .onclick {
+        background: rgb(255, 249, 160)
+    }
+    .ok{
+        background: rgb(255, 249, 160)
+    }
+    .jja{
+        background: rgb(255, 102, 0)
+    }
+    .kill{
+        background: rgb(255, 77, 77)
+    }
+    .writen{
+        background:  rgb(255, 204, 204);
+    }
+</style>
+{% endblock head %}
+
+
+{% block body %}
+<!-- <div style="max-height:90%; overflow:scroll; overflow-y:auto;overflow-x:auto; position:absolute; top: 50px; bottom: 3000; left:400px; padding-right:50px; width:600px; word-wrap:break-word"
+    id='content'>
+    기사창
+</div> -->
+    <h6 style="line-height: 0.1px;">오후 3시~익일 1시</h6>
+    <h6 style="line-height: 0.1px;">개발자: 경제부 서영빈</h6>
+    <!--<h6 style="line-height: 0.1px;">개발문의, 건의사항 등 : 카카오톡 id: suhcrates1<h6>-->
+    <!-- <a style="line-height: 0.1px;" href="http://testbot.ddns.net:5233/sihwang/">종합 방 </a><span>   // </span> -->
+    <!-- <a id="jogun" style="line-height: 0.1px;" href="/bot_v3/condition/" >처리 가능 보고서 목록 및 처리 조건 </a> -->
+<!-- <h3 id='day_here'>{{day_0}}</h3> -->
+<a href='http://testbot.ddns.net:5234/donga/dangbun/'>당번 홈으로 가기</a><br><br>
+<button style='button' onclick="location.href='/donga/dangbun/naver/dan' " value='only'>cp & 단독</button>
+<button style='button' onclick="location.href='/donga/dangbun/naver/only' " value='only'>cp & 단독·속보</button>
+<button style='button' onclick="location.href='/donga/dangbun/naver/all' " value='all'>전체보기</button>
+<br>
+<br>
+<table style="width:500px; font-size:10pt;border:1px solid #7f7f7f;" border="1" cellspacing="0" cellpadding="1"
+    data-mce-style="font-size: 10pt; border: 1px solid #7f7f7f;">
+    <tr id='avoid'>
+    <!-- <th> -->
+
+    <td>시간</td>
+    <td>제목</td>
+    <td>언론사</td>
+    <td>작성</td>
+    <!-- </th> -->
+    </tr>
+    {% for obj in objs %}
+
+
+
+
+    <tr id={{obj.ind}} class="main {{obj.writen}}" style="height:45px">
+        
+        <td>{{ obj.time0}}</td>
+        <td >
+            <a class='link' href="{{obj.url}}">{{ obj.title }} </a>
+
+        </td>
+        <td >{{obj.press}}</td>
+        <td class='button1' style="width:45px"><button class='button' id='{{obj.ind}}' name='{{obj.url}}' value="{{obj.press}}" title="{{ obj.title }}"> 작성 </button> </td>
+        <script>
+
+                $(document).ready(function (){
+                    if("{{obj.cp}}" == false){
+                        // $('#'+'{{obj.ind}}').addClass('writen')
+                        $('#{{obj.ind}}').find('.link').removeAttr('href');
+                        $('#{{obj.ind}}').find('.button').remove();
+                        $('#{{obj.ind}}').find('.button1').text("cp아님");
+                    };
+                });
+
+            </script>
+        <!--
+        <td><a href = "/bot/{{obj.ind}}">{{obj.title}}</a></td>
+    -->
+
+
+    </tr>
+    {% endfor %}
+</table>
+
+{% for pagename in pagenames %}
+<a href='/bot_v3/{{pagename}}/'>{{pagename}}</a><br>
+{% endfor %}
+
+<!--
+<form action="/bot_v3/{{day_0}}/" method="POST">
+    <input type="text" name="title" id="content">
+    <input type="text" name="article" id="content">
+
+    <input type="submit" value="Add">
+
+</form>
+-->
+{% endblock body %}`

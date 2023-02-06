@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>당번 홈</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
+    <script type = "text/javascript">
+        var brod = '{{ brod }}'
+    </script>
+    <script src="{{ url_for('static', filename='js/sihwang.js') }}"></script>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sihwang.css') }}"></script>
+    <script>
+    	$(document).ready(function(){
+    		$('#{{id_0}}').addClass('dangbun')
+
+    	})
+
+    </script>
+</head>
+<body>
+<h1>당번 홈</h1>
+<p>개발자: 경제부 서영빈</p>
+<!--<h5>출발·마감 속보 자동송고, 공시 AI 뉴스봇, 빅데이터분석 관련 개발 문의 //kakao: suhcrates1</h5>-->
+<p>오전 10시 ~ 익일 1시까지만 열림</p>
+
+<hr>
+
+<h3>방송 보고 자동작성</h3>
+<a href='/donga/dangbun/mbc/'>MBC</a><br><br>
+<a href='/donga/dangbun/tvchosun/'>TV조선</a><br><br>
+<a href='/donga/dangbun/jtbc/'>JTBC</a><br><br>
+<a href='/donga/dangbun/mbn/'>MBN</a><br><br>
+<a href='/donga/dangbun/kbs/'>KBS</a><br><br>
+<a href='/donga/dangbun/sbs/'>SBS</a><br>
+<hr>
+<br>
+<a href='http://testbot.ddns.net:5235/donga/dangbun/naver'>네이버 뉴스 (beta)</a><br>
+
+<p>※문제가 있으면 알려주세요 kakao id: suhcrates1  </p>
+
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+#giveme_??_cookie  : 카카오, 네이버의 보안 쿠키 가져옴. db maker의 headers에 들어감
+
+# kakao_one_two_db_maker
+   카카오는 regDt 등록일자를 가져옴. date0 가 등록일자
+# naver_one_two_db_maker
+    네이버는 date0가 검색일자임. createDate가 등록일자 -> 그래서 date0 를 createDate 로 교체함.
+# donga_one_two_db_maker
+ :  각각  엊그제, 어제   의 기사들을  db에 저장함.
+
+'@디지털콘텐츠 편성표'
+'온라인출고'
+
+두가지 항목을 처리하기 위함
