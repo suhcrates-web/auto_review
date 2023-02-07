@@ -7,6 +7,7 @@ import numpy as np
 from collections import defaultdict
 from datetime import date, timedelta
 
+
 #### 파일에서 디지털스페셜 가져오기 ####
 def make_review():
     list_0 = glob.glob(f'data/*')
@@ -18,16 +19,22 @@ def make_review():
         file_list.append(file_name)
 
     df = pd.read_excel(f'data/{file_list[0]}', engine='openpyxl')
+    df = df.dropna(subset=df.columns[[2]])  ## nan 을 제거
+
     # list0 = df.iloc[:,0].to_list()
     # for i in list0:
     #     print(type(i))
     ind_list = df.iloc[:, 0].to_list()
+    title_list = df.iloc[:, 2].to_list()
+    # print(ind_list)
+
+    total_num = len(df.iloc[:, 2].to_list())
 
     day_ind_list = [n for n, sch in enumerate(df.iloc[:, 0].to_list()) if type(sch) != float]
     last_ind = day_ind_list[-1]  # 마지막 날짜 (해당 날짜)  의 인덱스
     s_last_ind = day_ind_list[-2]  # 목록을 긁어와야 하는 날짜 (31일 기준 리뷰면 30일, 31일) 의 인덱스
 
-    total_num = len(ind_list) - last_ind
+    # total_num = len(ind_list) - last_ind
     # date0 = df.iloc[last_ind,0]
     # day0 = re.findall(r"\d+일",date0)[0]
     # week0 = re.findall(r"(?<=\().+?(?=\))",date0)[0]
@@ -45,17 +52,21 @@ def make_review():
         select url, title0 from review_auto.donga_one_two
         """
     )
-    title_finder = {re.findall(r'(?<=/)\d+(?=/)',k)[-1]: v for k, v in cursor.fetchall()}  # url:title0
+    title_finder = {re.findall(r'(?<=/)\d+(?=/)', k)[-1]: v for k, v in cursor.fetchall()}  # url:title0
 
-    print(title_finder)
-    for i in range(s_last_ind, len(ind_list)):  #
+    # print(title_finder)
+    for i in range(s_last_ind, total_num):  #
         line = df.iloc[i].to_list()
         # print(line)
         if '디지털스페셜' in str(line[1]) or '디지털콘텐츠' in str(line[1]):
             # print(line[2])
             ds_dics[line[2]] = []  # 제목을 key로
         elif i >= last_ind:  # 디지털 스페셜 외의 기사는 s_last 가 아닌 last_ind 부터 적용돼야함. 이건 이후 수정
-            title0 = title_finder[re.findall(r'(?<=/)\d+(?=/)', line[3])[-1]]
+            xl_url = re.findall(r'(?<=/)\d+(?=/)', line[3])[-1]
+            if xl_url in [*title_finder]:  # 엑셀의 기사가 동아닷컴 조회수 순위에 있을 경우.
+                title0 = title_finder[xl_url]
+            else:  # 동아닷컴 조회수 순위에 없으면 그냥 엑셀 기사 제목을 붙임.
+                title0 = line[2]
             ex_dics[title0] = {'corps': [], 'tot_cv': 0}
             ex_sosok_dics[title0] = line[4]
 
@@ -163,7 +174,7 @@ def make_review():
     final0 = \
         f"""
     <{date.today().day}일 디프런티어센터>
-    
+
     @@종합
     {jonghap0}   
 

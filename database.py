@@ -10,3 +10,4 @@ config = {
 
 db = mysql.connector.connect(**config)
 cursor = db.cursor()
+

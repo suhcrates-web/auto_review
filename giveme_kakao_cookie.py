@@ -12,9 +12,9 @@ def giveme_kakao_cookie():
     driver.get(url)
     time.sleep(1)
 
-    id = driver.find_element(By.XPATH, '//*[@id="input-loginKey"]')
+    id = driver.find_element(By.XPATH, '//*[@id="loginKey--1"]')
     id.send_keys('suhcrates@hanmail.net')
-    id = driver.find_element(By.XPATH, '//*[@id="input-password"]')
+    id = driver.find_element(By.XPATH, '//*[@id="password--2"]')
     id.send_keys('seoseoseo7!')
     id = driver.find_element(By.XPATH, '//*[@id="mainContent"]/div/div/form/div[4]/button[1]')
     id.click()

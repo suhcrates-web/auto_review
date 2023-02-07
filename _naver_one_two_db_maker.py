@@ -7,6 +7,19 @@ from datetime import date, timedelta
 from giveme_naver_cookie import giveme_naver_cookie
 from collections import defaultdict
 
+import mysql.connector
+
+config = {
+    'user' : 'root',
+    'password': 'Seoseoseo7!',
+    'host':'localhost',
+    # 'database':'shit',
+    'port':'3306'
+}
+
+db = mysql.connector.connect(**config)
+cursor = db.cursor()
+
 
 cursor.execute(
     """

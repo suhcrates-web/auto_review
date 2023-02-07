@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, jsonify
-from werkzeug.utils import secure_filename
+# from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 from database import cursor, db
 import binascii, codecs
@@ -53,7 +53,7 @@ def upload():
 
         f = request.files['file']
         # f.save("./data/"+ secure_filename(f.filename))
-        file_name = str(round(random.random()*100000))
+        file_name = str(round(random.random()*100000)) + '.xlsx'
         print(f"file_name: {file_name}")
         f.save(f"./data/{file_name}")
         loop = True
@@ -71,6 +71,16 @@ def upload():
 @app.route('/make_review', methods=['POST'])
 def si_post():
     if request.method == 'POST':
+        config = {
+            'user': 'root',
+            'password': 'Seoseoseo7!',
+            'host': 'localhost',
+            # 'database':'shit',
+            'port': '3306'
+        }
+
+        db = mysql.connector.connect(**config)
+        cursor = db.cursor()
 
         print('fuck')
         cmd = request.form['cmd']
