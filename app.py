@@ -31,9 +31,15 @@ def index_brod():
 
         db = mysql.connector.connect(**config)
         cursor = db.cursor()
+        cursor.execute(
+            """
+            select success0, success_time from review_auto.crawl_check where ind ='1'
+            """
+        )
+        success0, suc_time = cursor.fetchall()[0]
         article = "<br><br>최근 10분내 작성 보고 없음<br><br><br>"
         date0 = '123'
-        return render_template('sihwang.html', article=article, now=date0, id_0='asdf', state='asdf', state_m='asdf')
+        return render_template('sihwang.html', article=article, now=suc_time, id_0='asdf', state='asdf', state_m='asdf')
 
     except:
         article = "<br><br>새로고침 하세요<br><br><br>"

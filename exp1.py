@@ -1,32 +1,28 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-import time
+import traceback
+from datetime import datetime
+from _donga_one_two_db_maker import _donga_one_two_db_maker
+from _kakao_one_two_db_maker import _kakao_one_two_db_maker
+from _naver_one_two_db_maker import _naver_one_two_db_maker
+import mysql.connector
 
 
-# def giveme_kakao_cookie():
-options = webdriver.ChromeOptions()
-driver = webdriver.Chrome('C:/stamp/chromedriver', options=options)
+success0 = False
 
-url = 'https://accounts.kakao.com/login/?continue=https://harmony.kakao.com/auth'
+config = {
+    'user': 'root',
+    'password': 'Seoseoseo7!',
+    'host': 'localhost',
+    'port': '3306'
+}
 
-driver.get(url)
-time.sleep(1)
+db = mysql.connector.connect(**config)
+cursor = db.cursor()
+cursor.execute(
+    """
+    select success0, success_time from review_auto.crawl_check where ind ='1'
+    """
+)
 
-id = driver.find_element(By.XPATH, '//*[@id="loginKey--1"]')
-id.send_keys('suhcrates@hanmail.net')
-id = driver.find_element(By.XPATH, '//*[@id="password--2"]')
-id.send_keys('seoseoseo7!')
-id = driver.find_element(By.XPATH, '//*[@id="mainContent"]/div/div/form/div[4]/button[1]')
-id.click()
-time.sleep(1)
-driver.get('https://harmony.kakao.com/studio/190/insight/realtime')
-time.sleep(1)
-#
-cookie0 = ''
-# print(driver.get_cookies())
-for dic in driver.get_cookies()[::-1]:
-    name0 = dic['name']
-    value0 = dic['value']
-    cookie0 += f"; {name0}={value0}"
-    # return cookie0[2:]
-
+success0, suc_time = cursor.fetchall()[0]
+print(success0)
+print(suc_time)
