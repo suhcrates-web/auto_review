@@ -1,8 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
+import re
 
 def giveme_gija_name(url):
-
+    # url = '20230213/117851449'
     headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
     'Accept-Encoding': 'gzip, deflate, br',
@@ -22,6 +23,15 @@ def giveme_gija_name(url):
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
     }
     print(f'https://www.donga.com/news/article/all/{url}')
-    temp = requests.get(f'https://www.donga.com/news/article/all/{url}')
+    temp = requests.get(f'https://www.donga.com/news/article/all/{url}/1')
     temp = BeautifulSoup(temp.content, 'html.parser')
-    return temp.find('div', {'class':'report'}).findAll('a')[0].text.replace('기자','').replace(' ','')
+    # print(temp)
+    result = temp.find('div', {'class': 'report'}).findAll('a')[0].text.replace('기자', '').replace(' ', '')
+
+    #특파원 제거
+    result = result.replace('특파원','')
+    result = re.sub(r'.+\=', '',result)
+
+    return result
+
+# giveme_gija_name('asdf')
