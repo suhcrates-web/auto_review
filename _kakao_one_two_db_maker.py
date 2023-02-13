@@ -46,7 +46,7 @@ def _kakao_one_two_db_maker():
     except:
         kakao_cookie = giveme_kakao_cookie()
 
-
+    #### 1~2일 전꺼
     yest0 = date.today() - timedelta(days= 1)
     yest00 =  date.today() - timedelta(days= 2)
     url = f'https://harmony.kakao.com/proxy/insight/pv/best/range/{yest00.strftime("%Y%m%d")}-{yest0.strftime("%Y%m%d")}/media/total?size=200&includeVodInfo=true'
@@ -91,6 +91,50 @@ def _kakao_one_two_db_maker():
         cursor.execute(
             f"""
             insert into review_auto.kakao_one_two values("{dics[i]['date0']}" ,"{dics[i]['title0']}", "{dics[i]['cv']}") 
+            """
+        )
+    db.commit()
+
+    ### 오늘꺼 실시간
+    cursor.execute(
+        """
+        drop table if exists review_auto.kakao_today
+        """
+    )
+
+    cursor.execute(
+        """
+        create table if not exists review_auto.kakao_today(
+        date0 date,
+        title0 varchar(100),
+        cv int
+        )
+        """
+    )
+
+    url = f'https://harmony.kakao.com/proxy/insight/pv/best/range/{date.today()}-{date.today()}/media/total?size=200&includeVodInfo=true'
+
+    temp = requests.get(url, headers=headers)
+    # print(temp.content)
+    rows = json.loads(temp.content.decode())
+
+    dics = {}
+    for row in rows:
+        # print(row)
+        date0 = str(row['regDt'])[:8]
+        cv = row['pv']
+        title0 = row['title']
+        if title0 == None:
+            break
+        title0 = title0.replace('"', '“')
+        title_shrunk = title0.replace(' ', '')
+
+        dics[title_shrunk] = {'date0': date0, 'cv': cv, 'title0': title0}
+
+    for i in dics:
+        cursor.execute(
+        f"""
+            insert into review_auto.kakao_today values("{dics[i]['date0']}" ,"{dics[i]['title0']}", "{dics[i]['cv']}") 
             """
         )
     db.commit()

@@ -47,7 +47,8 @@ def _naver_one_two_db_maker():
         naver_cookie = giveme_naver_cookie()
     dics = {}
 
-    n =0
+
+    ##### 1~2일 전꺼#####
     for days0 in [2,1]: ## 순서 1,2에서 2,1로 바꿈.  기사 A가 2일전, 1일전에 모두 걸려있을 수 있는데, 1일전 걸 앞세워야 하기때문.
         date0 = date.today() - timedelta(days= days0)
         url = f'https://news-stat-admin.navercorp.com/api/today?timeDimension=DATE&startDate={date0}&section=total&device=TOTAL&channelMainTabType=ALL&_=1673680541938_61180'
@@ -94,6 +95,48 @@ def _naver_one_two_db_maker():
         cursor.execute(
             f"""
             insert into review_auto.naver_one_two values("{dics[i]['date0']}" ,"{dics[i]['title0']}", "{dics[i]['cv']}", "{dics[i]['createDate']}") 
+            """
+        )
+    db.commit()
+
+    #### 오늘꺼 실시간
+    cursor.execute(
+        """
+        drop table if exists review_auto.naver_today
+        """
+    )
+
+    cursor.execute(
+        """
+        create table if not exists review_auto.naver_today(
+        date0 date,
+        title0 varchar(100),
+        cv int,
+        createDateTime timestamp
+        )
+        """
+    )
+    url = f'https://news-stat-admin.navercorp.com/api/today?timeDimension=DATE&startDate={date.today()}&section=total&device=TOTAL&channelMainTabType=ALL&_=1676250571865_51261'
+    temp = requests.get(url, headers=headers)
+    # print(temp.content)
+    rows = json.loads(temp.content.decode())['result']['statDataList'][1]['data']['rows']
+
+    #
+    for n in range(len(rows['uri'])):
+        uri = rows['uri'][n]
+        # date0 = rows['date'][n] # 얘는 그냥 검색날짜. 의미없음
+        cv = rows['cv'][n]
+        createDate = rows['createDate'][n]  # 등록 일시
+        date0 = createDate[:10]  # 얘가 등록날짜
+        title0 = rows['title'][n].replace('"', '“')
+        title_shrunk = title0.replace(' ', '')
+
+        dics[title_shrunk] = {'date0': date0, 'cv': cv, 'title0': title0, 'createDate': createDate}
+
+    for i in dics:
+        cursor.execute(
+            f"""
+            insert into review_auto.naver_today values("{dics[i]['date0']}" ,"{dics[i]['title0']}", "{dics[i]['cv']}", "{dics[i]['createDate']}") 
             """
         )
     db.commit()

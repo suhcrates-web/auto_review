@@ -6,10 +6,22 @@ import pandas as pd
 import numpy as np
 from collections import defaultdict
 from datetime import date, timedelta
-
+import mysql.connector
+from make_paper_review import make_paper_review
 
 #### 파일에서 디지털스페셜 가져오기 ####
 def make_review():
+    config = {
+        'user': 'root',
+        'password': 'Seoseoseo7!',
+        'host': 'localhost',
+        # 'database':'shit',
+        'port': '3306'
+    }
+
+    db = mysql.connector.connect(**config)
+    cursor = db.cursor()
+
     list_0 = glob.glob(f'data/*')
     file_list = []
     year_list = []
@@ -169,6 +181,9 @@ def make_review():
                 text000 += corp_dic[corp0] + f' {str(round(cv / 10000, 1)).replace(".0", "")}만, '
             text000 = text000[:-2] + '\n'
 
+    #### 조간
+    text0000 = make_paper_review()
+
     ##### 최종 텍스트 만들기 ####
 
     final0 = \
@@ -184,6 +199,8 @@ def make_review():
     {text00}
     @온라인 출고
     {text000}
+    @{date.today().day}일 조간(오전 9시 반)
+    {text0000}
     """
     return final0
 

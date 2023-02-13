@@ -1,8 +1,11 @@
 import traceback
 from datetime import datetime
 from _donga_one_two_db_maker import _donga_one_two_db_maker
+from _donga_newspaper_db_maker import _donga_newspaper_db_maker
+from _donga_today_db_maker import _donga_today_db_maker
 from _kakao_one_two_db_maker import _kakao_one_two_db_maker
 from _naver_one_two_db_maker import _naver_one_two_db_maker
+from make_name_db import make_name_db
 import mysql.connector
 
 
@@ -29,6 +32,8 @@ while not success0:
 
 
         _donga_one_two_db_maker()
+        _donga_today_db_maker()
+        _donga_newspaper_db_maker()  # newspaper가 today 다음에 와야함. today의 데이터를 사용해야되기때문
         print('동아 완료')
         _kakao_one_two_db_maker()
         print('다음 완료')
@@ -64,3 +69,7 @@ cursor.execute(
     """
 )
 db.commit()
+
+
+#### 일 다 끝나면  네임 업데이트
+make_name_db()
