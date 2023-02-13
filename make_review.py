@@ -9,6 +9,7 @@ from datetime import date, timedelta
 import mysql.connector
 from make_paper_review import make_paper_review
 
+
 #### 파일에서 디지털스페셜 가져오기 ####
 def make_review():
     config = {
@@ -36,10 +37,18 @@ def make_review():
     # list0 = df.iloc[:,0].to_list()
     # for i in list0:
     #     print(type(i))
+
+    ## 오늘 날짜인거 빼기 ##
+    temp_list = df.iloc[:, 0].to_list()
+    last_ind = [n for n, sch in enumerate(df.iloc[:, 0].to_list()) if type(sch) != float][-1]
+    date0 = df.iloc[last_ind, 0]
+    day0 = re.findall(r'\d+(?=일)', date0)[0]
+    if str(date.today().day) == day0:  # 오늘날짜인게 있으면 잘라서 없앰.
+        df = df.iloc[:last_ind, :]
+
+    # 다시시작
     ind_list = df.iloc[:, 0].to_list()
     title_list = df.iloc[:, 2].to_list()
-    # print(ind_list)
-
     total_num = len(df.iloc[:, 2].to_list())
 
     day_ind_list = [n for n, sch in enumerate(df.iloc[:, 0].to_list()) if type(sch) != float]
@@ -96,6 +105,7 @@ def make_review():
 
     def title_checker(title0):
         title0 = title0.replace(' ', '')
+        title0 = re.sub(r'\(.+\)', '', title0)
         for check in title_list:
             if check in title0:
                 return True
@@ -203,4 +213,5 @@ def make_review():
     {text0000}
     """
     return final0
+
 
