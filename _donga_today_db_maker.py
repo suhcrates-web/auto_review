@@ -75,10 +75,11 @@ def _donga_today_db_maker():
         # print(cvs[i].text)
         url_code = re.findall(r'(?<=/)\d+(?=/)', titles[i].find('a')['href'])
         xl_url = url_code[-2] + '/' + url_code[-1]
+
         cursor.execute(
             f"""
-                insert into review_auto.donga_today values("{dates[i].text}" ,"{titles[i].text.replace('○','').replace('△','')}", "{cvs[i].text.replace(',','')}", "{xl_url}")
-                """
-        )
+            insert into review_auto.donga_today values("{dates[i].text}" ,"{titles[i].text.replace('○','').replace('△','').replace('"','“')}", "{cvs[i].text.replace(',','')}", "{xl_url}")
+            """
+    )
     db.commit()
-_donga_today_db_maker()
+# _donga_today_db_maker()

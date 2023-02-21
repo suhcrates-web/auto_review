@@ -33,7 +33,7 @@ def make_paper_review():
         )
 
         for title0, cv in cursor.fetchall():
-            if title0 in [*paper_dics] and cv > 50000:
+            if title0 in [*paper_dics] and cv > 30000:
                 paper_dics[title0]['corps'].append((site0, cv))
                 paper_dics[title0]['tot_cv'] += cv
 
@@ -46,10 +46,14 @@ def make_paper_review():
         """
     )
     name_to_sosok = {k:v for k,v in cursor.fetchall()}
-
+    # print(name_to_sosok)
     for key0 in ex_dics:
         name0 = giveme_gija_name(ex_dics[key0]['url'])
-        ex_dics[key0]['sosok'] = name_to_sosok[name0]
+        # print(name0)
+        if name0 in [*name_to_sosok]:
+            ex_dics[key0]['sosok'] = name_to_sosok[name0]
+        else:
+            ex_dics[key0]['sosok'] = "(소속 미확인)"
         time.sleep(1)
 
     text000 = ''

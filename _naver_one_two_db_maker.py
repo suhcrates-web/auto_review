@@ -84,14 +84,15 @@ def _naver_one_two_db_maker():
             date0 = createDate[:10]  # 얘가 등록날짜
             title0 = rows['title'][n].replace('"','“')
             title_shrunk = title0.replace(' ','')
-
-            dics[title_shrunk] = {'date0':date0, 'cv':cv, 'title0':title0, 'createDate':createDate}
+            if date0 != "":
+                dics[title_shrunk] = {'date0':date0, 'cv':cv, 'title0':title0, 'createDate':createDate}
 
         if days0 == 1:
             time.sleep(3)
 
 
     for i in dics:
+
         cursor.execute(
             f"""
             insert into review_auto.naver_one_two values("{dics[i]['date0']}" ,"{dics[i]['title0']}", "{dics[i]['cv']}", "{dics[i]['createDate']}") 
@@ -140,3 +141,5 @@ def _naver_one_two_db_maker():
             """
         )
     db.commit()
+
+# _naver_one_two_db_maker()

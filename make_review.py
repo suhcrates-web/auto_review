@@ -79,10 +79,11 @@ def make_review():
     for i in range(s_last_ind, total_num):  #
         line = df.iloc[i].to_list()
         # print(line)
-        if '디지털스페셜' in str(line[1]) or '디지털콘텐츠' in str(line[1]):
+        if ('디지털스페셜' in str(line[1]) or '디지털콘텐츠' in str(line[1])) and '정치인&아웃' not in str(line[2]).replace(' ',''):
             # print(line[2])
             ds_dics[line[2]] = []  # 제목을 key로
         elif i >= last_ind:  # 디지털 스페셜 외의 기사는 s_last 가 아닌 last_ind 부터 적용돼야함. 이건 이후 수정
+            # print(line[2])
             xl_url = re.findall(r'(?<=/)\d+(?=/)', line[3])[-1]
             if xl_url in [*title_finder]:  # 엑셀의 기사가 동아닷컴 조회수 순위에 있을 경우.
                 title0 = title_finder[xl_url]
@@ -148,7 +149,7 @@ def make_review():
     ds_dics = {k: v for k, v in sorted(ds_dics.items(), key=lambda item: item[1]['tot_cv'], reverse=True)}
 
     text0 = ''
-    corp_dic = {'naver': '네이버', 'kakao': '카카오', 'donga': '동아'}
+    corp_dic = {'naver': '네이버', 'kakao': '다음', 'donga': '동아'}
     for title0, content0 in ds_dics.items():
         text0 += '-' + title0 + '/ '
         for corp0, cv in content0['corps']:
