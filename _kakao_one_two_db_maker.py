@@ -45,7 +45,7 @@ def _kakao_one_two_db_maker():
         kakao_cookie = giveme_kakao_cookie()
     except:
         kakao_cookie = giveme_kakao_cookie()
-
+    # kakao_cookie="webid=d544c2c97f394519994dfaa028d31fa7; webid_ts=1677421858871; TIARA=eSI5cOoegEL316gP7ark3WnaSyreyzSmJ2njf9xMopMoCaKw9kufA9uUq5N59HrF8DBwtrHZBlofgbzX4y6i9BMDHrHFkzM1UlMdgcZ5fj10; _T_ANO=IglUfjPa5vNv5VHI3FVHdvz5hsidyv54dOamm5aCv9+s2N6tb+aI4MlTVrK5EEv5rxmf0G5ZTEwuvFbHGLgFO7VhR3cdGAmrEf2Wit1MU1SQxTNXEgRJBrupz2pnYGXW1u4FontLmRW5rL6GwejdbfOeXWXlgvme778aM82OTkFbvZlMEYHHQ3+bSfd8RYWztHNoNZNcYkJdXeschOnqDZQmpZpUu82dVng8v6K3jCwHZx1lOl5YgCuHFcjws0CzyiJWI4AsMdvAnPm1FaMDN0AlGfPSygxQ+0Rtyou6eYDlldW/QE8ptYOWFz314/OIB8I5ccVkluKajrr4rBtkQw==; _kawlt=afCP6kwGKqkZ5mR4yb5SRP7UXSetM_yjYlpTBUHwk3rdpDptd8kYZx59lLNSY_BzhSoezrxp8JKW3mTa0DgawxXbE9BwBhdfQ0zZ9d8OJdJBJxViQpG5lcYkOYZXWBQw; _kawltea=1677534459; _karmt=bMTRYdMdd4m7ZJ1W73w6NmF1fGxhjzWALURvCuL8cK2Of4hZ344Md61BCn7TtnAJ; _karmtea=1677545259; _kahai=c337646ae903b3d6bea92b2791c579f0e2b9e0c7bdcba54e1cf06c6d85fed45d; SESSION=ed50f88c-2624-414b-a189-0519c66de411; JSESSIONID=node0onolg9qu7pfn1q9pwgday15eq559046.node0"
     #### 1~2일 전꺼
     yest0 = date.today() - timedelta(days= 1)
     yest00 =  date.today() - timedelta(days= 2)

@@ -10,8 +10,9 @@ import mysql.connector
 
 
 success0 = False
-
-while not success0:
+n=0
+while not success0 or n >3:
+    n+=1
     try:
         config = {
             'user': 'root',
